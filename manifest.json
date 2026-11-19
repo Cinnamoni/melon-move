@@ -1,0 +1,10 @@
+{
+  "id": "melon-move",
+  "name": "melonDS",
+  "entry": "/ui/Main.qml",
+  "loadsBackend": true,
+  "canHaveMultipleFrontends": false,
+  "supportsScaling": true,
+  "aspectRatio": "move",
+  "width": "auto"
+}

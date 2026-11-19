@@ -1,0 +1,6 @@
+<RCC>
+  <qresource>
+    <file>ui/Main.qml</file>
+    <file>ui/PadButton.qml</file>
+  </qresource>
+</RCC>

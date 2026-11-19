@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.16)
+project(melon_move LANGUAGES C CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include(FetchContent)
+set(BUILD_QT_SDL OFF CACHE BOOL "" FORCE)
+set(ENABLE_OGLRENDERER OFF CACHE BOOL "" FORCE)
+set(ENABLE_LTO_RELEASE OFF CACHE BOOL "" FORCE)
+set(ENABLE_GDBSTUB OFF CACHE BOOL "" FORCE)
+FetchContent_Declare(melonds
+    GIT_REPOSITORY https://github.com/melonDS-emu/melonDS.git
+    GIT_TAG b86390e4428bf38ce4c1ce0e9ca446d6d25955e8)
+FetchContent_MakeAvailable(melonds)
+
+find_package(Threads REQUIRED)
+add_executable(entry src/main.cpp src/platform.cpp)
+target_link_libraries(entry PRIVATE core Threads::Threads ${CMAKE_DL_LIBS})
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(entry PRIVATE -Wall -Wextra)
+endif()
+option(STATIC_CXX_RUNTIME "Link libstdc++ and libgcc statically" OFF)
+if(STATIC_CXX_RUNTIME)
+    target_link_options(entry PRIVATE -static-libstdc++ -static-libgcc)
+endif()
+install(TARGETS entry RUNTIME DESTINATION backend)
